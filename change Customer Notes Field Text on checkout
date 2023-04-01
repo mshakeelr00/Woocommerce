@@ -1,0 +1,6 @@
+add_filter( 'woocommerce_checkout_fields' , 'change_order_notes_placeholder' );
+function change_order_notes_placeholder( $fields ) {
+     $fields['order']['order_comments']['placeholder'] = _x('Notes about your order, such as performance dates, and special delivery information', 'placeholder', 'woocommerce');
+
+     return $fields;
+}
