@@ -1,0 +1,66 @@
+
+function resource_child()
+{
+    $catid = get_field('parent_resource_');
+
+	if(!empty($catid))
+	{
+		$parentid = get_field('parent_resource_');
+	}
+	else
+	{
+		$parentid = '';
+	}
+
+	$args = array(
+        'parent' => $parentid
+	);
+
+	$terms = get_terms( 'product_cat', $args );
+
+	if ( $terms )
+	{
+
+		$message = '<ul class="product-cats">';
+
+		foreach ( $terms as $term )
+		{
+
+			$message .= '<li class="category">';
+
+			$category_thumbnail = get_woocommerce_term_meta($term->term_id, 'thumbnail_id', true);
+
+            $image = wp_get_attachment_url($category_thumbnail,'medium');
+
+			if(!empty($image))
+			{
+				$image = wp_get_attachment_url($category_thumbnail,'medium');
+			}
+			else
+			{
+				$image = esc_url(home_url().'/wp-content/uploads/woocommerce-placeholder-300x300.png');
+			}
+
+            $message .= '<a href="' .  esc_url( get_term_link( $term ) ) . '" class="' . $term->slug . '"><img src="'.$image.'"></a>';
+
+			$message .= '<h2>';
+
+			$message .= '<a href="' .  esc_url( get_term_link( $term ) ) . '" class="' . $term->slug . '">';
+
+			$message .= $term->name;
+
+			$message .= '</a>';
+
+			$message .= '</h2>';
+
+			$message .= '</li>';
+		}
+
+			$message .= '</ul>';
+	}
+
+
+	return $message;
+}
+
+add_shortcode('resource_child','resource_child');
