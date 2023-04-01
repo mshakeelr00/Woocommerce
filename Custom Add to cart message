@@ -1,0 +1,13 @@
+//the filter works when we need to display custom message once a customer click on add to cart button
+
+add_filter( 'wc_add_to_cart_message_html', 'custom_add_to_cart_message' );
+function custom_add_to_cart_message($product_id)
+{
+	//$message = sprintf(esc_html__('%s has been added to your cart. Thank you for shopping!'), get_the_title( $product_id ) );
+
+   $message = 'Your product has been added to cart. Thank you for shopping with us! <div class="s_btns"><a href="' . esc_url(home_url('/search')) . '" class="button wc-forward">Continue shopping</a> <a href="' . wc_get_cart_url() . '" class="button wc-forward">View cart</a></div>';
+
+   //$message .= '<div class="s_btns"><a href="' . esc_url(home_url('/search')) . '" class="button wc-forward">Continue shopping</a> <a href="' . wc_get_cart_url() . '" class="button wc-forward">View cart</a></div>';
+
+   return $message;
+}
