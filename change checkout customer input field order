@@ -1,0 +1,22 @@
+
+//reset field order
+add_filter( 'woocommerce_checkout_fields', 'misha_email_first' );
+
+function misha_email_first( $checkout_fields ) {
+	$checkout_fields[ 'billing' ][ 'billing_country' ][ 'priority' ] = 90;
+	return $checkout_fields;
+}
+
+
+
+
+// WooCommerce Checkout Fields Hook
+add_filter( 'woocommerce_checkout_fields' , 'custom_wc_checkout_fields' );
+
+// Change order comments placeholder and label, and set billing phone number to not required.
+function custom_wc_checkout_fields( $fields ) {
+
+	 $fields['billing']['billing_address_1']['placeholder'] = '';
+
+return $fields;
+}
