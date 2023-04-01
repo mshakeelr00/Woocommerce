@@ -1,0 +1,72 @@
+//modifying the shipping rates
+add_filter( 'woocommerce_package_rates', 'woocommerce_package_rates' );
+function woocommerce_package_rates( $rates )
+{
+    $discount_amount = 5; // 30%
+
+
+
+	// Get the WooCommerce cart
+	$cart = WC()->cart;
+
+	// Get the number of items in the cart
+	$cart_items_count = $cart->get_cart_contents_count();
+
+	//echo "Number of items in the cart: " . $cart_items_count . "<br>";
+
+	// Get the cart contents
+	$cart_contents = $cart->get_cart();
+
+	foreach($cart_contents as $item)
+	{
+		// Get the product
+		$product = $item['data'];
+
+		// Check if the product is virtual
+		if($product->is_virtual() || $product->is_downloadable())
+		{
+			//echo $product->get_name() . " is a virtual/downloadable product <br>";
+			$price = '';
+		}
+		else
+		{
+			//$price += $product->get_price(); //20+10
+
+			$quantity = $item['quantity'];
+            $prices =  $item['data']->get_price();
+
+			$price += $prices * $quantity;
+
+		}
+
+
+	}
+
+
+    foreach($rates as $key => $rate )
+	{
+
+        //echo "price =". $price;
+        //echo "Cost=". $rates[$key]->cost = $rates[$key]->cost - ( $rates[$key]->cost * ( $discount_amount/100 ) );
+
+		if($price <= '30')
+		{
+			$rates[$key]->cost = '9';
+		}
+		elseif($price > '30' && $price <= '60')
+		{
+			$rates[$key]->cost = '13';
+		}
+		elseif($price > '60' && $price <= '135')
+		{
+			$rates[$key]->cost = '16';
+		}
+		else
+		{
+			$rates[$key]->cost = '0';
+		}
+
+    }
+
+    return $rates;
+}
